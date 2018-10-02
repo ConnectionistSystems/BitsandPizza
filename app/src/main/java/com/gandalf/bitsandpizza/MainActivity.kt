@@ -3,28 +3,28 @@ package com.gandalf.bitsandpizza
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.ShareActionProvider
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.support.v7.widget.ShareActionProvider
 
 
 
 class MainActivity : AppCompatActivity() {
-    private var shareActionProvider : android.support.v7.widget.ShareActionProvider? = null
+    private var shareActionProvider : ShareActionProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById(R.id.toolbar) as android.support.v7.widget.Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu : Menu): Boolean {
-        getMenuInflater().inflate(R.menu.menu_main, menu)
-        val menuItem = menu.findItem(R.id.action_share) as MenuItem
-        shareActionProvider = MenuItemCompat.getActionProvider(menuItem) as android.support.v7.widget.ShareActionProvider
+        menuInflater.inflate(R.menu.menu_main, menu)
+        val menuItem = menu.findItem(R.id.action_share)
+        shareActionProvider = MenuItemCompat.getActionProvider(menuItem) as ShareActionProvider
         setShareActionIntent("Want to join me for pizza?")
         return super.onCreateOptionsMenu(menu)
     }
@@ -37,13 +37,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
-        when(item.itemId) {
+        return when(item.itemId) {
             R.id.action_create_order -> {
                 val intent = Intent(this, OrderActivity::class.java)
                 startActivity(intent)
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
